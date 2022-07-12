@@ -16,7 +16,12 @@ function App() {
     return (
         <div className="App">
             <h1>EJ2 Job Manager</h1>
-        <p>There are {jobSources.length} job sources:</p>
+            <p>There are {jobSources.length} job sources:</p>
+            <ul>
+                {jobSources.map((jobSource, i) => {
+                    return <li key={i}>{jobSource.name}</li>;
+                })}
+            </ul>
         </div>
     );
 }
