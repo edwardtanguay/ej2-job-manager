@@ -10,7 +10,6 @@ function App() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [message, setMessage] = useState('');
-	const [pageIsReady, setPageIsReady] = useState(false);
 
 	const userIsLoggedIn = () => {
 		return Object.keys(currentUser).length > 0;
@@ -33,9 +32,6 @@ function App() {
 					authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			});
-			setTimeout(() => {
-				setPageIsReady(true);
-			}, 100);
 			if (response.ok) {
 				const data = await response.json();
 				setCurrentUser(data.user);
@@ -73,60 +69,42 @@ function App() {
 	return (
 		<div className="App">
 			<>
-				{pageIsReady && (
+				<h1>EJ2 Job Manager</h1>
+				{userIsLoggedIn() ? (
 					<>
-						<h1>EJ2 Job Manager</h1>
-						{userIsLoggedIn() ? (
-							<>
-								<p>
-									There are {jobSources.length} job sources:
-								</p>
-								<ul>
-									{jobSources.map((jobSource, i) => {
-										return (
-											<li key={i}>{jobSource.name}</li>
-										);
-									})}
-								</ul>
-								<button
-									className="logout"
-									onClick={handleLogoutButton}
-								>
-									Logout
-								</button>
-							</>
-						) : (
-							<form
-								className="login"
-								onSubmit={handleLoginButton}
-							>
-								<div className="row">
-									username:{' '}
-									<input
-										onChange={(e) =>
-											setUsername(e.target.value)
-										}
-										value={username}
-										type="text"
-									/>
-								</div>
-								<div className="row">
-									password:{' '}
-									<input
-										onChange={(e) =>
-											setPassword(e.target.value)
-										}
-										value={password}
-										type="password"
-									/>
-								</div>
-								<div className="row">
-									<button>Login</button>
-								</div>
-								<div className="row">{message}</div>
-							</form>
-						)}
+						<p>There are {jobSources.length} job sources:</p>
+						<ul>
+							{jobSources.map((jobSource, i) => {
+								return <li key={i}>{jobSource.name}</li>;
+							})}
+						</ul>
+						<button className="logout" onClick={handleLogoutButton}>
+							Logout
+						</button>
 					</>
+				) : (
+					<form className="login" onSubmit={handleLoginButton}>
+						<div className="row">
+							username:{' '}
+							<input
+								onChange={(e) => setUsername(e.target.value)}
+								value={username}
+								type="text"
+							/>
+						</div>
+						<div className="row">
+							password:{' '}
+							<input
+								onChange={(e) => setPassword(e.target.value)}
+								value={password}
+								type="password"
+							/>
+						</div>
+						<div className="row">
+							<button>Login</button>
+						</div>
+						<div className="row">{message}</div>
+					</form>
 				)}
 			</>
 		</div>
