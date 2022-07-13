@@ -35,7 +35,7 @@ function App() {
 			});
 			setTimeout(() => {
 				setPageIsReady(true);
-			}, 200);
+			}, 100);
 			if (response.ok) {
 				const data = await response.json();
 				setCurrentUser(data.user);
